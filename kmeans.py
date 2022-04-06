@@ -1,4 +1,5 @@
-from typing import List
+from typing import List, Tuple
+import numbers
 
 class Matrix:
 
@@ -11,8 +12,12 @@ class Matrix:
     def __getitem__(self, item):
         return self.matrix[item]
 
-    def __add__(self, other: 'Matrix')->'Matrix':
-        """ add matrices element wise, return new Matrix"""
+    def __add__(self, other)->'Matrix':
+        """ add matrices element wise, return new Matrix.
+            add scalar and matrix using broadcasting """
+        if isinstance(other,numbers.Number):
+            other = self._broadcast(other)
+
         if not (self._agree_on_size(other)):
             raise ValueError("Must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
@@ -25,8 +30,10 @@ class Matrix:
         mat = Matrix(result)
         return mat
 
-    def __sub__(self, other: 'Matrix')->'Matrix':
+    def __sub__(self, other)->'Matrix':
         """ subtract matrices element wise, return new Matrix"""
+        if isinstance(other,numbers.Number):
+            other = self._broadcast(other)
         if not (self._agree_on_size(other)):
             raise ValueError("Must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
@@ -36,8 +43,7 @@ class Matrix:
             for j in range(cols):
                 tmp.append(self.matrix[i][j]-other.matrix[i][j])
             result.append(tmp)
-        mat = Matrix(result)
-        return mat
+        return Matrix(result)
 
     def __mul__(self, constant: float)->'Matrix':
         """multiplies by a scalar, returns new Matrix"""
@@ -48,8 +54,7 @@ class Matrix:
             for j in range(cols):
                 tmp.append(self.matrix[i][j]*constant)
             result.append(tmp)
-        mat = Matrix(result)
-        return mat
+        return Matrix(result)
 
     def matmul(self, other: 'Matrix'):
         """"Matrix multiplication, return new Matrix"""
@@ -113,10 +118,24 @@ class Matrix:
             return True
         return False
 
+    def _broadcast(self, value: numbers.Number):
+        """ broadcast scalars to a matrix shape
+            for adding and substracting scalars"""
+        rows, cols = self.get_shape()[0], self.get_shape()[1]
+        return Matrix.create_matrix((rows,cols),value)
+
+    def create_matrix(shape: Tuple[int,int], value=0.0)->'Matrix':
+        rows, cols = shape[0], shape[1]
+        result = [[value]*cols for _ in range(rows)]
+        return Matrix(result)
+
+
     def get_shape(self):
         return self.shape
 
-
+# t = Matrix.create_matrix((3,4),2)
+# print(t)
+# print(t-2.2)
 
 # b = Matrix([[1,2],[3,4]])
 # print((a))
@@ -136,13 +155,14 @@ class Matrix:
 # print(m1.matmul(m2))
 
 
-# print("\nVectors")
+print("\nVectors")
 # v = Matrix([[1,2,3]])
 # print(v)
 # print(v.norm())
-# u = Matrix([1,2,3])
+u = Matrix([1,2,3])
 # print(v)
-# print(u)
+print(u)
+print(u+5)
 # print((u+v))
 # print((v*3))
 # print(v.dot(u))
