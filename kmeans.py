@@ -61,14 +61,15 @@ class Matrix:
         if not self._agree_on_size_dot(other):
             raise ValueError("Matrices must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
-        result = [[0]*other.get_shape()[1] for k in range(self.get_shape()[0])]
+        result = Matrix.create_matrix((self.get_shape()[0],other.get_shape()[1]))
+        # result = [[0]*other.get_shape()[1] for k in range(self.get_shape()[0])]
         for i in range(rows):
             for k in range(other.get_shape()[1]):
                 tmp_sum = 0
                 for j in range(cols):
                     tmp_sum += self.matrix[i][j]*other.matrix[j][k]
                 result[i][k] = tmp_sum
-        return Matrix(result)
+        return result
 
     def dot(self,other: 'Matrix')->float:
         """" dot product of two vectors"""
@@ -78,11 +79,12 @@ class Matrix:
 
     def transpose(self)->'Matrix':
         rows,cols = self.get_shape()[0],self.get_shape()[1]
-        result = [[0]*rows for k in range(cols)]
+        result = Matrix.create_matrix((cols,rows))
+        # result = [[0]*rows for k in range(cols)]
         for j in range(cols):
             for i in range(rows):
                 result[j][i] = self.matrix[i][j]
-        return Matrix(result)
+        return result
 
     def norm(self)->float:
         if self.get_shape()[0]!=1:
@@ -153,17 +155,19 @@ class Matrix:
 # print(m2)
 # print()
 # print(m1.matmul(m2))
+#
 
-
-print("\nVectors")
+# print("\nVectors")
 # v = Matrix([[1,2,3]])
 # print(v)
 # print(v.norm())
-u = Matrix([1,2,3])
+# u = Matrix([1,2,3])
 # print(v)
-print(u)
-print(u+5)
+# print(u)
+# print(u+5)
+# print((u+5).transpose())
 # print((u+v))
 # print((v*3))
 # print(v.dot(u))
 # print(v.norm())
+
