@@ -4,11 +4,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from kmeans import KMeans
 
-def test_clusters():
+def my_test_clusters():
     # generate data
-    g1 = np.random.normal(loc=10,scale=1,size=(2,10))
-    g2 = np.random.normal(loc=0,scale=1,size=(2,10))
-    g3 = np.random.normal(loc=-5,scale=1,size=(2,10))
+    g1 = np.random.normal(loc=10,scale=1,size=(2,100))
+    g2 = np.random.normal(loc=0,scale=1,size=(2,100))
+    g3 = np.random.normal(loc=-5,scale=1,size=(2,100))
     data = np.concatenate((g1,g2,g3),axis=1).T
     np.random.shuffle(data)
     train_data = data.tolist()
@@ -24,3 +24,5 @@ def test_clusters():
     for c in centers:
         sns.scatterplot(x=[c[0]],y=[c[1]], marker="x", s=40)
     plt.show()
+
+my_test_clusters()
