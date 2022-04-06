@@ -69,6 +69,17 @@ class Matrix:
                 result[j][i] = self.matrix[i][j]
         return result
 
+    def get_shape(self):
+        return self.shape
+
+    def copy(self):
+        rows,cols = self.get_shape()[0],self.get_shape()[1]
+        result = Matrix.create_matrix(shape=(rows,cols))
+        for i in range(rows):
+            for j in range(cols):
+                result[i][j] = self.matrix[i][j]
+        return result
+
     def __str__(self):
         return "\n".join([str(row) for row in self.matrix])
 
@@ -108,9 +119,6 @@ class Matrix:
         return Matrix.create_matrix((rows,cols),value)
 
 
-    def get_shape(self):
-        return self.shape
-
 ######################
 ### Class Methods ####
 ######################
@@ -148,5 +156,4 @@ class Matrix:
         if vector.get_shape()[0]!=1:
             raise ValueError("Input is not 1d Vector")
         return Matrix.dot(vector,vector)**0.5
-        # return (vector.matmul(vector.transpose()).matrix[0][0]) ** 0.5
 

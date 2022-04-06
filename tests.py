@@ -25,6 +25,10 @@ def test_matrix():
     print("m2: \n", m2, '\n')
     print("m1.matmul(m2): \n", Matrix.matmul(m1,m2), '\n')
     print("m1.T: \n", m1.transpose(), '\n')
+    print("m2: \n", m2, '\n')
+    m2[1][2] = 99
+    print("m2 changed: \n", m2, '\n')
+
 
 def test_broadcasting():
     v = Matrix([[1,2,3]])
@@ -32,8 +36,21 @@ def test_broadcasting():
     print("v+5: \n",v+5, '\n')
     print("v-3: \n",v-3, '\n')
 
+def test_copy():
+    m1 = Matrix([[1,2,3],[6,2,5]])
+    m1_copy = m1.copy()
+    print("m1: \n", m1, '\n')
+    m1[0][2] = 99
+    print("m1: \n", m1, '\n')
+    print("m1_copy: \n", m1_copy, '\n')
+    print(m1==m1_copy)
+
+
+
+
 
 if __name__=="__main__":
-    test_vectors()
-    test_broadcasting()
-    test_matrix()
+    # test_vectors()
+    # test_broadcasting()
+    # test_matrix()
+    test_copy()
