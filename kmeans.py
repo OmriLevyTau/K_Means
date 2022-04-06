@@ -9,6 +9,7 @@ class Matrix:
         self.shape = (len(self.matrix),len(self.matrix[0]))
 
     def __add__(self, other: 'Matrix')->'Matrix':
+        """ add matrices element wise, return new Matrix"""
         if not (self._agree_on_size(other)):
             raise ValueError("Must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
@@ -22,6 +23,7 @@ class Matrix:
         return mat
 
     def __sub__(self, other: 'Matrix')->'Matrix':
+        """ subtract matrices element wise, return new Matrix"""
         if not (self._agree_on_size(other)):
             raise ValueError("Must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
@@ -35,7 +37,7 @@ class Matrix:
         return mat
 
     def __mul__(self, constant: float)->'Matrix':
-        # multiplies by a scalar, returns new Matrix
+        """multiplies by a scalar, returns new Matrix"""
         rows,cols = self.get_shape()[0],self.get_shape()[1]
         result = []
         for i in range(rows):
@@ -47,6 +49,7 @@ class Matrix:
         return mat
 
     def matmul(self, other: 'Matrix'):
+        """"Matrix multiplication, return new Matrix"""
         if not self._agree_on_size_dot(other):
             raise ValueError("Matrices must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
@@ -60,6 +63,7 @@ class Matrix:
         return Matrix(result)
 
     def dot(self,other: 'Matrix')->float:
+        """" dot product of two vectors"""
         if self.get_shape()[0] != 1 or other.get_shape()[0]!=1:
             raise ValueError("Dot product between 1d vectors only")
         return self.matmul(other.transpose()).matrix[0][0]
@@ -67,11 +71,9 @@ class Matrix:
     def transpose(self)->'Matrix':
         rows,cols = self.get_shape()[0],self.get_shape()[1]
         result = [[0]*rows for k in range(cols)]
-
         for j in range(cols):
             for i in range(rows):
                 result[j][i] = self.matrix[i][j]
-
         return Matrix(result)
 
     def norm(self)->float:
@@ -79,17 +81,16 @@ class Matrix:
             raise ValueError("Must be 1d Vector")
         return (self.matmul(self.transpose()).matrix[0][0]) ** 0.5
 
-
     def __str__(self):
         return "\n".join([str(row) for row in self.matrix])
 
     def _is_valid_matrix(self, matrix: List[List[float]])-> bool:
-        # assures valid matrix. all rows are of the same length
-        # converts 1-dim input to 1-dim Matrix
+        """assures valid matrix. all rows are of the same length,
+            converts 1-dim input to 1-dim Matrix
+        """
         if not isinstance(matrix[0],list):
             matrix = [matrix]
             self.matrix = matrix
-
         n = len(matrix[0])
         for row in matrix:
             if len(row)!=n:
@@ -98,11 +99,13 @@ class Matrix:
         return True
 
     def _agree_on_size(self,other: 'Matrix')-> bool:
+        """check if matrices have same shape for element wise operations"""
         if (self.get_shape() == other.get_shape()):
             return True
         return False
 
     def _agree_on_size_dot(self,other: 'Matrix')->bool:
+        """check if matrices have approporiate shape for matmul and dot"""
         if self.get_shape()[1] == other.get_shape()[0]:
             return True
         return False
