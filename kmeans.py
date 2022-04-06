@@ -46,7 +46,7 @@ class Matrix:
         mat = Matrix(result)
         return mat
 
-    def dot(self,other: 'Matrix'):
+    def matmul(self, other: 'Matrix'):
         if not self._agree_on_size_dot(other):
             raise ValueError("Matrices must agree on size")
         rows,cols = self.get_shape()[0],self.get_shape()[1]
@@ -59,6 +59,11 @@ class Matrix:
                 result[i][k] = tmp_sum
         return Matrix(result)
 
+    def dot(self,other: 'Matrix')->float:
+        if self.get_shape()[0] != 1 or other.get_shape()[0]!=1:
+            raise ValueError("Dot product between 1d vectors only")
+        return self.matmul(other.transpose()).matrix[0][0]
+
     def transpose(self)->'Matrix':
         rows,cols = self.get_shape()[0],self.get_shape()[1]
         result = [[0]*rows for k in range(cols)]
@@ -70,8 +75,9 @@ class Matrix:
         return Matrix(result)
 
     def norm(self)->float:
-        return (self.dot(self.transpose()).matrix[0][0])**0.5
-
+        if self.get_shape()[0]!=1:
+            raise ValueError("Must be 1d Vector")
+        return (self.matmul(self.transpose()).matrix[0][0]) ** 0.5
 
 
     def __str__(self):
@@ -111,26 +117,27 @@ class Matrix:
 # print(a+b)
 # print()
 # print(a*5)
-m1 = Matrix([[1,2,3],[6,2,5]])
-print(m1)
-print()
-print(m1.transpose())
-
+# m1 = Matrix([[1,2,3],[6,2,5]])
+# print(m1)
+# print()
+# print(m1.transpose())
+#
 # m2 = Matrix([[1,4,7,0],[2,5,8,0],[3,6,9,0]])
 # print(m1)
 # print()
 # print(m2)
 # print()
-# print(m1.dot(m2))
+# print(m1.matmul(m2))
 
 
-print("\nVectors")
-v = Matrix([1,1,1,1])
-print(v)
-print(v.norm())
-# u = Matrix([[1],[2],[3]])
+# print("\nVectors")
+# v = Matrix([[1,2,3]])
 # print(v)
-# print(v.transpose())
+# print(v.norm())
+# u = Matrix([1,2,3])
+# print(v)
+# print(u)
 # print((u+v))
 # print((v*3))
 # print(v.dot(u))
+# print(v.norm())
