@@ -59,6 +59,20 @@ class Matrix:
                 result[i][k] = tmp_sum
         return Matrix(result)
 
+    def transpose(self)->'Matrix':
+        rows,cols = self.get_shape()[0],self.get_shape()[1]
+        result = [[0]*rows for k in range(cols)]
+
+        for j in range(cols):
+            for i in range(rows):
+                result[j][i] = self.matrix[i][j]
+
+        return Matrix(result)
+
+    def norm(self)->float:
+        return (self.dot(self.transpose()).matrix[0][0])**0.5
+
+
 
     def __str__(self):
         return "\n".join([str(row) for row in self.matrix])
@@ -98,17 +112,25 @@ class Matrix:
 # print()
 # print(a*5)
 m1 = Matrix([[1,2,3],[6,2,5]])
-m2 = Matrix([[1,4,7,0],[2,5,8,0],[3,6,9,0]])
 print(m1)
 print()
-print(m2)
-print()
-print(m1.dot(m2))
+print(m1.transpose())
+
+# m2 = Matrix([[1,4,7,0],[2,5,8,0],[3,6,9,0]])
+# print(m1)
+# print()
+# print(m2)
+# print()
+# print(m1.dot(m2))
 
 
-# print("\n Vectors")
-# v = Matrix([1,2,3])
-# u = Matrix([1,2,3])
+print("\nVectors")
+v = Matrix([1,1,1,1])
+print(v)
+print(v.norm())
+# u = Matrix([[1],[2],[3]])
+# print(v)
+# print(v.transpose())
 # print((u+v))
 # print((v*3))
-
+# print(v.dot(u))
