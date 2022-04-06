@@ -7,6 +7,10 @@ class Vector:
         self.vector = v
         self.n = len(v)
 
+######################
+## Instance Methods ##
+######################
+
     def __getitem__(self, item)->numbers.Number:
         return self.vector[item]
 
@@ -65,6 +69,9 @@ class Vector:
                 arg = i
         return arg
 
+######################
+### Static Methods ###
+######################
     def _broadcast(self, constant)->'Vector':
         return Vector.create_vector(self.n, value=constant)
 

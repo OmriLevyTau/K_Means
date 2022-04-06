@@ -11,16 +11,12 @@ class KMeans:
     def fit(self,data:List[List[float]]):
         self.data = data
         self.rows = len(data)
-        self.centroids = self._init_centroids()
-
-    def _init_centroids(self):
-        result = [Vector(c) for c in self.data[:self.k].copy()]
-        return result
-
+        self.centroids = [Vector(c) for c in self.data[:self.k].copy()]
 
     def train(self):
         point_clusters = Vector.create_vector(self.rows,value=0)
         for iter in range(self.max_iter):
+
             # assign each point to closest cluster
             for i in range(self.rows):
                 point = Vector(self.data[i])
@@ -29,6 +25,7 @@ class KMeans:
                     center = self.centroids[j]
                     dist_point_center[j] = Vector.sqaured_norm(point-center)
                 point_clusters[i] = dist_point_center.argmin()
+
             # calculate new centroids
             cluster_sum = [c for c in self.centroids]
             cluster_count = Vector.create_vector(self.k, value=1)
