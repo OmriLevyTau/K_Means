@@ -11,8 +11,8 @@ def test():
     r5 = v-1
     r6 = Vector.dot(v,u)
     r7 = Vector.dot(u,v)
-    r8 = Vector.norm(v)
-    r9 = Vector.norm(u)
+    r8 = Vector.m
+    r9 = Vector.sqaured_norm(u)
 
     print(v)
     print(u)
@@ -31,6 +31,27 @@ def test():
     print(v)
     print(r10)
 
+    w = Vector([0, 0, 0, -1, 0])
+    print(w.argmin())
 
-test()
+def test_nested():
+    a = Vector.create_vector(2,1)
+    centers = [[1,2],[3,4]]
+    m1 = [Vector(c) for c in centers]
+    print(m1)
+    for i in range(len(m1)):
+        m1[i] += a
+    print("after")
+    print(m1)
 
+
+
+
+
+# test()
+# test_nested()
+a = Vector.create_vector(5,10)
+b = Vector.create_vector(5,2)
+# print(a)
+# print(a/3)
+print(a/b)
