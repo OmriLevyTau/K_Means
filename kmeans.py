@@ -9,6 +9,10 @@ class Matrix:
             raise ValueError("Not a Valid matrix")
         self.shape = (len(self.matrix),len(self.matrix[0]))
 
+######################
+## Instance Methods ##
+######################
+
     def __getitem__(self, item):
         return self.matrix[item]
 
@@ -56,43 +60,20 @@ class Matrix:
             result.append(tmp)
         return Matrix(result)
 
-    def matmul(self, other: 'Matrix'):
-        """"Matrix multiplication, return new Matrix"""
-        if not self._agree_on_size_dot(other):
-            raise ValueError("Matrices must agree on size")
-        rows,cols = self.get_shape()[0],self.get_shape()[1]
-        result = Matrix.create_matrix((self.get_shape()[0],other.get_shape()[1]))
-        # result = [[0]*other.get_shape()[1] for k in range(self.get_shape()[0])]
-        for i in range(rows):
-            for k in range(other.get_shape()[1]):
-                tmp_sum = 0
-                for j in range(cols):
-                    tmp_sum += self.matrix[i][j]*other.matrix[j][k]
-                result[i][k] = tmp_sum
-        return result
-
-    def dot(self,other: 'Matrix')->float:
-        """" dot product of two vectors"""
-        if self.get_shape()[0] != 1 or other.get_shape()[0]!=1:
-            raise ValueError("Dot product between 1d vectors only")
-        return self.matmul(other.transpose()).matrix[0][0]
 
     def transpose(self)->'Matrix':
         rows,cols = self.get_shape()[0],self.get_shape()[1]
         result = Matrix.create_matrix((cols,rows))
-        # result = [[0]*rows for k in range(cols)]
         for j in range(cols):
             for i in range(rows):
                 result[j][i] = self.matrix[i][j]
         return result
 
-    def norm(self)->float:
-        if self.get_shape()[0]!=1:
-            raise ValueError("Must be 1d Vector")
-        return (self.matmul(self.transpose()).matrix[0][0]) ** 0.5
-
     def __str__(self):
         return "\n".join([str(row) for row in self.matrix])
+
+    def __repr__(self):
+        return self.__str__()
 
     def _is_valid_matrix(self, matrix: List[List[float]])-> bool:
         """assures valid matrix. all rows are of the same length,
@@ -126,11 +107,46 @@ class Matrix:
         rows, cols = self.get_shape()[0], self.get_shape()[1]
         return Matrix.create_matrix((rows,cols),value)
 
+
+    def get_shape(self):
+        return self.shape
+
+######################
+### Class Methods ####
+######################
+
+    @staticmethod
     def create_matrix(shape: Tuple[int,int], value=0.0)->'Matrix':
         rows, cols = shape[0], shape[1]
         result = [[value]*cols for _ in range(rows)]
         return Matrix(result)
 
+    @staticmethod
+    def matmul(mat1:'Matrix', mat2: 'Matrix'):
+        """"Matrix multiplication, return new Matrix"""
+        if not mat1._agree_on_size_dot(mat2):
+            raise ValueError("Matrices must agree on size")
+        rows,cols = mat1.get_shape()[0], mat1.get_shape()[1]
+        result = Matrix.create_matrix((mat1.get_shape()[0], mat2.get_shape()[1]))
+        for i in range(rows):
+            for k in range(mat2.get_shape()[1]):
+                tmp_sum = 0
+                for j in range(cols):
+                    tmp_sum += mat1.matrix[i][j] * mat2.matrix[j][k]
+                result[i][k] = tmp_sum
+        return result
 
-    def get_shape(self):
-        return self.shape
+    @staticmethod
+    def dot(vec1: 'Matrix', vec2: 'Matrix')->float:
+        """" dot product of two vectors"""
+        if vec1.get_shape()[0] != 1 or vec2.get_shape()[0]!=1:
+            raise ValueError("Dot product between 1d vectors only")
+        return Matrix.matmul(vec1,vec2.transpose()).matrix[0][0]
+
+    @staticmethod
+    def norm(vector)->float:
+        if vector.get_shape()[0]!=1:
+            raise ValueError("Input is not 1d Vector")
+        return Matrix.dot(vector,vector)**0.5
+        # return (vector.matmul(vector.transpose()).matrix[0][0]) ** 0.5
+
