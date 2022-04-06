@@ -14,7 +14,7 @@ class Matrix:
 ######################
 
     def __getitem__(self, item):
-        return self.matrix[item]
+        return self.matrix[0][item]
 
     def __add__(self, other)->'Matrix':
         """ add matrices element wise, return new Matrix.
@@ -35,7 +35,8 @@ class Matrix:
         return mat
 
     def __sub__(self, other)->'Matrix':
-        """ subtract matrices element wise, return new Matrix"""
+        """ subtract matrices element wise, return new Matrix
+            subtract scalar and matrix using broadcasting"""
         if isinstance(other,numbers.Number):
             other = self._broadcast(other)
         if not (self._agree_on_size(other)):
@@ -79,6 +80,7 @@ class Matrix:
             for j in range(cols):
                 result[i][j] = self.matrix[i][j]
         return result
+
 
     def __str__(self):
         return "\n".join([str(row) for row in self.matrix])
@@ -156,4 +158,61 @@ class Matrix:
         if vector.get_shape()[0]!=1:
             raise ValueError("Input is not 1d Vector")
         return Matrix.dot(vector,vector)**0.5
+
+    @staticmethod
+    def argmin(vector):
+        if vector.get_shape()[0]!=1:
+            raise ValueError("Input is not 1d Vector")
+        arg = 0
+        min = vector[0]
+        for i in range(vector.get_shape()[1]):
+            if vector[i]<min:
+                arg = i
+        return arg
+
+# class KMeans:
+#
+#     def __init__(self,k, max_iter=200):
+#         self.k = k
+#         self.max_iter = max_iter
+#         self.epsilon = 0.001
+#
+#     def fit(self,data):
+#         self.data = Matrix(data)
+#         self.centroids = data.copy()[:self.k]
+#         self.rows = self.data.get_shape()[0]
+#         self.cols = self.data.get_shape()[1]
+#
+#     def train(self):
+#         points_clusters = Matrix.create_matrix((1,self.rows), value=0)
+#         for iter in range(self.max_iter):
+#             # assign each point to closest cluster
+#             for i in range(self.rows):
+#                 point = Matrix(self.data[i])
+#                 dist_point_center = Matrix.create_matrix((1,self.k),value=0)
+#                 for j in range(self.k):
+#                     center = Matrix(self.centroids[j])
+#                     dist = Matrix.norm(point-center)**2
+#                     dist_point_center[j] = dist
+#                 points_clusters[i] = Matrix.argmin(dist_point_center)
+#             # calculate new centroids
+#             cluster_sum = Matrix.create_matrix((self.cols,self.k),value=0)
+#             cluster_count = Matrix.create_matrix((1,self.k),value=0)
+#             for i in range(self.rows):
+#                 c = points_clusters[i]
+#                 cluster_count[c] += 1
+#                 u = Matrix(cluster_sum[c])
+#                 v = Matrix(self.data[i])
+#                 cluster_sum[c] += 0
+
+
+
+
+
+
+
+
+
+
+
 

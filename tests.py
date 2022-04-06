@@ -1,5 +1,5 @@
 
-from kmeans import Matrix
+from Mat import Matrix
 
 def test_vectors():
     v = Matrix([[1,2,3]])
@@ -37,7 +37,7 @@ def test_broadcasting():
     print("v-3: \n",v-3, '\n')
 
 def test_copy():
-    m1 = Matrix([[1,2,3],[6,2,5]])
+    m1 = Matrix.create_matrix(shape=(3,4),value=1)
     m1_copy = m1.copy()
     print("m1: \n", m1, '\n')
     m1[0][2] = 99
@@ -45,7 +45,9 @@ def test_copy():
     print("m1_copy: \n", m1_copy, '\n')
     print(m1==m1_copy)
 
-
+def test_argmin():
+    v = Matrix([[-4,2,3,5,2,-11,9]])
+    print(Matrix.argmin(v))
 
 
 
@@ -53,4 +55,5 @@ if __name__=="__main__":
     # test_vectors()
     # test_broadcasting()
     # test_matrix()
-    test_copy()
+    # test_copy()
+    test_argmin()
