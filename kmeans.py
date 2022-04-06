@@ -8,6 +8,9 @@ class Matrix:
             raise ValueError("Not a Valid matrix")
         self.shape = (len(self.matrix),len(self.matrix[0]))
 
+    def __getitem__(self, item):
+        return self.matrix[item]
+
     def __add__(self, other: 'Matrix')->'Matrix':
         """ add matrices element wise, return new Matrix"""
         if not (self._agree_on_size(other)):
@@ -114,7 +117,7 @@ class Matrix:
         return self.shape
 
 
-# a = Matrix([[1,2],[3,4]])
+
 # b = Matrix([[1,2],[3,4]])
 # print((a))
 # print(a+b)
