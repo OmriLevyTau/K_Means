@@ -122,7 +122,7 @@ class Matrix:
 
     def _broadcast(self, value: numbers.Number):
         """ broadcast scalars to a matrix shape
-            for adding and substracting scalars"""
+            for adding and subtracting scalars"""
         rows, cols = self.get_shape()[0], self.get_shape()[1]
         return Matrix.create_matrix((rows,cols),value)
 
@@ -134,40 +134,3 @@ class Matrix:
 
     def get_shape(self):
         return self.shape
-
-# t = Matrix.create_matrix((3,4),2)
-# print(t)
-# print(t-2.2)
-
-# b = Matrix([[1,2],[3,4]])
-# print((a))
-# print(a+b)
-# print()
-# print(a*5)
-# m1 = Matrix([[1,2,3],[6,2,5]])
-# print(m1)
-# print()
-# print(m1.transpose())
-#
-# m2 = Matrix([[1,4,7,0],[2,5,8,0],[3,6,9,0]])
-# print(m1)
-# print()
-# print(m2)
-# print()
-# print(m1.matmul(m2))
-#
-
-# print("\nVectors")
-# v = Matrix([[1,2,3]])
-# print(v)
-# print(v.norm())
-# u = Matrix([1,2,3])
-# print(v)
-# print(u)
-# print(u+5)
-# print((u+5).transpose())
-# print((u+v))
-# print((v*3))
-# print(v.dot(u))
-# print(v.norm())
-
