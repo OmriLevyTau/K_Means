@@ -62,12 +62,13 @@ class Vector:
         return result
 
     def argmin(self)->int:
-        arg = 0
+        arg_min = 0
         min = self[0]
         for i in range(self.n):
             if self[i]<min:
-                arg = i
-        return arg
+                arg_min = i
+                min = self[i]
+        return arg_min
 
 ######################
 ### Static Methods ###
@@ -95,5 +96,4 @@ class Vector:
 
     @staticmethod
     def sqaured_norm(v: 'Vector')->float:
-        return Vector.dot(v,v)**0.5
-
+        return Vector.dot(v,v)

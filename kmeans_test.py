@@ -13,7 +13,7 @@ def my_test_clusters():
     np.random.shuffle(data)
     train_data = data.tolist()
     #classify
-    classifier = KMeans(3)
+    classifier = KMeans(6)
     classifier.fit(train_data)
     centers = classifier.train()
     print(centers)
@@ -25,4 +25,13 @@ def my_test_clusters():
         sns.scatterplot(x=[c[0]],y=[c[1]], marker="x", s=40)
     plt.show()
 
-my_test_clusters()
+def official_test():
+    classifier = KMeans(7)
+    data = classifier.get_data("input_2.txt")
+    classifier.fit(data)
+    centers = classifier.train()
+    return centers
+
+t = official_test()
+for c in t:
+    print(c)
