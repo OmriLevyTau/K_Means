@@ -26,8 +26,8 @@ def my_test_clusters():
     plt.show()
 
 def official_test():
-    classifier = KMeans(7)
-    data = classifier.get_data("input_2.txt")
+    classifier = KMeans(3)
+    data = KMeans.get_data("input_1.txt")
     classifier.fit(data)
     centers = classifier.train()
     return centers

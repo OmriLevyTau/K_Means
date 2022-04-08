@@ -15,6 +15,7 @@ class KMeans:
         self.centroids = [Vector(c) for c in self.data[:self.k].copy()]
 
     def train(self):
+
         point_clusters = Vector.create_vector(self.rows, value=None)
         for iter in range(self.max_iter):
             # assign each point to closest cluster
@@ -33,7 +34,6 @@ class KMeans:
             old_centroids = self.centroids.copy()
             cluster_sum = [Vector.create_vector(self.cols, value=0) for _ in range(self.k)]
             cluster_count = Vector.create_vector(self.k, value=0)
-
             for i in range(self.rows):
                 idx = point_clusters[i]
                 cluster_count[idx] += 1
